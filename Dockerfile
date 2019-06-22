@@ -19,6 +19,8 @@ RUN apk add libressl-dev
 RUN apk add libevent-dev
 RUN apk add build-base
 
+RUN git checkout yehuda_new
+
 RUN ./autogen.sh
 RUN ./configure --disable-tests --disable-bench --disable-static --without-gui --disable-zmq --with-incompatible-bdb  CFLAGS='-w' CXXFLAGS='-w'
 RUN make
