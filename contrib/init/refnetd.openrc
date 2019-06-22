@@ -1,0 +1,92 @@
+#!/sbin/openrc-run
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/refnet/.refnet" ]; then
+	REFNETD_DEFAULT_DATADIR="/var/lib/refnet/.refnet"
+else
+	REFNETD_DEFAULT_DATADIR="/var/lib/refnetd"
+fi
+
+REFNETD_CONFIGFILE=${REFNETD_CONFIGFILE:-/etc/refnet/refnet.conf}
+REFNETD_PIDDIR=${REFNETD_PIDDIR:-/var/run/refnetd}
+REFNETD_PIDFILE=${REFNETD_PIDFILE:-${REFNETD_PIDDIR}/refnetd.pid}
+REFNETD_DATADIR=${REFNETD_DATADIR:-${REFNETD_DEFAULT_DATADIR}}
+REFNETD_USER=${REFNETD_USER:-${REFNET_USER:-refnet}}
+REFNETD_GROUP=${REFNETD_GROUP:-refnet}
+REFNETD_BIN=${REFNETD_BIN:-/usr/bin/refnetd}
+REFNETD_NICE=${REFNETD_NICE:-${NICELEVEL:-0}}
+REFNETD_OPTS="${REFNETD_OPTS:-${REFNET_OPTS}}"
+
+name="Refnet Core Daemon"
+description="Refnet cryptocurrency P2P network daemon"
+
+command="/usr/bin/refnetd"
+command_args="-pid=\"${REFNETD_PIDFILE}\" \
+		-conf=\"${REFNETD_CONFIGFILE}\" \
+		-datadir=\"${REFNETD_DATADIR}\" \
+		-daemon \
+		${REFNETD_OPTS}"
+
+required_files="${REFNETD_CONFIGFILE}"
+start_stop_daemon_args="-u ${REFNETD_USER} \
+			-N ${REFNETD_NICE} -w 2000"
+pidfile="${REFNETD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${REFNETD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${REFNETD_USER}:${REFNETD_GROUP}" \
+	"${REFNETD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${REFNETD_USER}:${REFNETD_GROUP}" \
+	"${REFNETD_PIDDIR}"
+
+	checkpath -f \
+	-o ${REFNETD_USER}:${REFNETD_GROUP} \
+	-m 0660 \
+	${REFNETD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${REFNETD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run refnetd."
+		eerror "The setting must appear in ${REFNETD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following "
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Refnet Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

@@ -1,28 +1,28 @@
-// Copyright (c) 2018 The Bitcoin Core developers
+// Copyright (c) 2018 The Refnet Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_TEST_APPTESTS_H
-#define BITCOIN_QT_TEST_APPTESTS_H
+#ifndef REFNET_QT_TEST_APPTESTS_H
+#define REFNET_QT_TEST_APPTESTS_H
 
 #include <QObject>
 #include <set>
 #include <string>
 #include <utility>
 
-class BitcoinApplication;
-class BitcoinGUI;
+class RefnetApplication;
+class RefnetGUI;
 class RPCConsole;
 
 class AppTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit AppTests(BitcoinApplication& app) : m_app(app) {}
+    explicit AppTests(RefnetApplication& app) : m_app(app) {}
 
 private Q_SLOTS:
     void appTests();
-    void guiTests(BitcoinGUI* window);
+    void guiTests(RefnetGUI* window);
     void consoleTests(RPCConsole* console);
 
 private:
@@ -37,8 +37,8 @@ private:
         ~HandleCallback();
     };
 
-    //! Bitcoin application.
-    BitcoinApplication& m_app;
+    //! Refnet application.
+    RefnetApplication& m_app;
 
     //! Set of pending callback names. Used to track expected callbacks and shut
     //! down the app after the last callback has been handled and all tests have
@@ -47,4 +47,4 @@ private:
     std::multiset<std::string> m_callbacks;
 };
 
-#endif // BITCOIN_QT_TEST_APPTESTS_H
+#endif // REFNET_QT_TEST_APPTESTS_H

@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  refnetd The refnet core server.
+#
+#
+# chkconfig: 345 80 20
+# description: refnetd
+# processname: refnetd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/refnetd, see below
+if [ -f /etc/sysconfig/refnetd ]; then
+        . /etc/sysconfig/refnetd
+fi
+
+RETVAL=0
+
+prog=refnetd
+# you can override the lockfile via REFNETD_LOCKFILE in /etc/sysconfig/refnetd
+lockfile=${REFNETD_LOCKFILE-/var/lock/subsys/refnetd}
+
+# refnetd defaults to /usr/bin/refnetd, override with REFNETD_BIN
+refnetd=${REFNETD_BIN-/usr/bin/refnetd}
+
+# refnetd opts default to -disablewallet, override with REFNETD_OPTS
+refnetd_opts=${REFNETD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $refnetd $refnetd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

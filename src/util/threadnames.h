@@ -1,9 +1,9 @@
-// Copyright (c) 2018 The Bitcoin Core developers
+// Copyright (c) 2018 The Refnet Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_UTIL_THREADNAMES_H
-#define BITCOIN_UTIL_THREADNAMES_H
+#ifndef REFNET_UTIL_THREADNAMES_H
+#define REFNET_UTIL_THREADNAMES_H
 
 #include <string>
 
@@ -18,4 +18,4 @@ const std::string& ThreadGetInternalName();
 
 } // namespace util
 
-#endif // BITCOIN_UTIL_THREADNAMES_H
+#endif // REFNET_UTIL_THREADNAMES_H

@@ -1,16 +1,16 @@
-Bitcoin Core version 0.17.0.1 is now available from:
+Refnet Core version 0.17.0.1 is now available from:
 
-  <https://bitcoincore.org/bin/bitcoin-core-0.17.0.1/>
+  <https://refnetcore.org/bin/refnet-core-0.17.0.1/>
 
 This release provides a minor bug fix for 0.17.0.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/bitcoin/bitcoin/issues>
+  <https://github.com/refnet/refnet/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://bitcoincore.org/en/list/announcements/join/>
+  <https://refnetcore.org/en/list/announcements/join/>
 
 Notable changes
 ===============

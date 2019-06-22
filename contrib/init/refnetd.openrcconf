@@ -1,0 +1,33 @@
+# /etc/conf.d/refnetd: config file for /etc/init.d/refnetd
+
+# Config file location
+#REFNETD_CONFIGFILE="/etc/refnet/refnet.conf"
+
+# What directory to write pidfile to?  (created and owned by $REFNETD_USER)
+#REFNETD_PIDDIR="/var/run/refnetd"
+
+# What filename to give the pidfile
+#REFNETD_PIDFILE="${REFNETD_PIDDIR}/refnetd.pid"
+
+# Where to write refnetd data (be mindful that the blockchain is large)
+#REFNETD_DATADIR="/var/lib/refnetd"
+
+# User and group to own refnetd process
+#REFNETD_USER="refnet"
+#REFNETD_GROUP="refnet"
+
+# Path to refnetd executable
+#REFNETD_BIN="/usr/bin/refnetd"
+
+# Nice value to run refnetd under
+#REFNETD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#REFNETD_OPTS=""
+
+# The timeout in seconds OpenRC will wait for refnetd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+REFNETD_SIGTERM_TIMEOUT=60
