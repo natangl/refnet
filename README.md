@@ -13,7 +13,7 @@ $ docker run -td --name refnet -p 11332:11332 -p 21332:21332 -p 21443:21443 -p 1
 
 #### And to run a bash terminal inside the docker:
 ```sh
-$ docker exec -it sigbit /bin/bash
+$ docker exec -it refnet /bin/bash
 ```
 
 ### now you will want to pull yehuda_new branch
