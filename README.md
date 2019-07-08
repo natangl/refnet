@@ -3,7 +3,7 @@
 
 build the docker from github
 ```sh
-$ docker build --tag "refnet" https://github.com/DVH1990/refnet.git
+$ docker build --tag "refnet" https://github.com/natangl/refnet.git
 ```
 
 ##### Now run the image in the background
@@ -16,14 +16,9 @@ $ docker run -td --name refnet -p 11332:11332 -p 21332:21332 -p 21443:21443 -p 1
 $ docker exec -it refnet /bin/bash
 ```
 
-### now you will want to pull yehuda_new branch
-```sh
-$ cd refnet
-$ git pull origin yehuda_new
-```
-
 ### now build the node
 ```sh
+$ cd refnet
 $ ./autogen.sh
 $ ./configure --disable-tests --disable-bench --disable-static --without-gui --disable-zmq --with-incompatible-bdb  CFLAGS='-w' CXXFLAGS='-w'
 $ make
