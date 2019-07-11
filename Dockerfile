@@ -18,3 +18,6 @@ RUN apk add libevent-dev
 RUN apk add build-base
 
 RUN git clone https://github.com/natangl/refnet.git
+RUN refnet/autogen.sh
+RUN refnet/configure --disable-tests --disable-bench --disable-static --without-gui --disable-zmq --with-incompatible-bdb  CFLAGS='-w' CXXFLAGS='-w'
+RUN make
