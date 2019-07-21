@@ -18,7 +18,3 @@ RUN apk add libevent-dev
 RUN apk add build-base
 
 RUN git clone https://github.com/natangl/refnet.git
-WORKDIR refnet
-RUN ./atuogen.sh
-RUN ./configure --disable-tests --disable-bench --disable-static --without-gui --disable-zmq --with-incompatible-bdb  CFLAGS='-w' CXXFLAGS='-w'
-RUN make
