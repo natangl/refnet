@@ -16,13 +16,6 @@ $ docker run -td --name refnet -p 11332:11332 -p 21332:21332 -p 21443:21443 -p 1
 $ docker exec -it refnet /bin/bash
 ```
 
-### now build the node
-```sh
-$ cd refnet
-$ ./autogen.sh
-$ ./configure --disable-tests --disable-bench --disable-static --without-gui --disable-zmq --with-incompatible-bdb  CFLAGS='-w' CXXFLAGS='-w'
-$ make
-```
 # Deploying to Heroku
 #### 1. Pull repository and Go to Folder
 
